@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.professionaldevelopment.R
 import com.example.professionaldevelopment.databinding.FragmentMainScreenBinding
 import com.example.professionaldevelopment.model.data.AppState
 import com.example.professionaldevelopment.model.data.DataModel
-import com.example.professionaldevelopment.presenter.MainFragmentPresenter
-import com.example.professionaldevelopment.ui.MainFragmentPresenterImpl
+import com.example.professionaldevelopment.ui.MainViewModel
 import com.example.professionaldevelopment.ui.adapters.MainFragmentAdapter
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView
@@ -23,7 +22,9 @@ class MainScreenFragment : Fragment(), RenderView {
     private val binding get() = _binding!!
 
     private var adapter: MainFragmentAdapter? = null
-    private var presenter: MainFragmentPresenter<AppState>? = null
+    val model:MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
 
     private val onItemClickListener: OnItemClickListener =
         object : OnItemClickListener {
@@ -40,13 +41,12 @@ class MainScreenFragment : Fragment(), RenderView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = MainFragmentPresenterImpl<AppState, RenderView>()
         binding.searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    presenter?.getData(searchWord, true)
+                    model?.getData(searchWord, true)
                 }
             })
             searchDialogFragment.show(childFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
@@ -100,7 +100,7 @@ class MainScreenFragment : Fragment(), RenderView {
         showViewError()
         errorTextview.text = error ?: getString(R.string.undefined_error)
         reloadButton.setOnClickListener {
-            presenter?.getData("hi", true)
+            model?.getData("hi", true)
         }
     }
 

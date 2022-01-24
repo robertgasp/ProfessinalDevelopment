@@ -1,4 +1,4 @@
-package com.example.professionaldevelopment.presenter
+package com.example.professionaldevelopment.ui.viewModel
 
 import io.reactivex.Observable
 
