@@ -6,31 +6,36 @@ import com.example.professionaldevelopment.model.dataSource.DataSourceLocal
 import com.example.professionaldevelopment.model.dataSource.DataSourceRemote
 import com.example.professionaldevelopment.model.repository.RepositoryImpl
 import com.example.professionaldevelopment.ui.viewModel.BaseViewModel
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
+import javax.inject.Inject
 
-class MainViewModel(
-    private val interactor: MainInteractor = MainInteractor(
-        RepositoryImpl(DataSourceRemote()),
-        RepositoryImpl(DataSourceLocal())
-    ),
-) : BaseViewModel<AppState>() {
+class MainViewModel @Inject constructor(private val interactor: MainInteractor) : BaseViewModel<AppState>() {
 
-    private var appState:AppState?=null
+    private var appState: AppState? = null
 
-    override fun getData(word: String, isOnline: Boolean) : LiveData<AppState> {
-        compositeDisposable.add(
-            interactor.getData(word,isOnline)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .doOnSubscribe{liveDataToObserveForView.value=AppState.Loading(null)}
-                .subscribeWith(getObserver())
-        )
-        return super.getData(word,isOnline)
+    fun subscribe(): LiveData<AppState> {
+        return liveDataToObserveForView
     }
 
-    private fun getObserver():DisposableObserver<AppState>{
-        return object: DisposableObserver<AppState>(){
-            override fun onNext(appState: AppState) {
+    private fun doOnSubscribe(): (Disposable) -> Unit =
+        { liveDataToObserveForView.value = AppState.Loading(null) }
+
+    override fun getData(word: String, isOnline: Boolean): LiveData<AppState> {
+        compositeDisposable.add(
+            interactor.getData(word, isOnline)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .doOnSubscribe { doOnSubscribe()}
+                .subscribeWith(getObserver())
+        )
+        return super.getData(word, isOnline)
+    }
+
+    private fun getObserver(): DisposableObserver<AppState> {
+        return object : DisposableObserver<AppState>() {
+            override fun onNext(state: AppState) {
+                appState = state
                 liveDataToObserveForView.value = appState
             }
 

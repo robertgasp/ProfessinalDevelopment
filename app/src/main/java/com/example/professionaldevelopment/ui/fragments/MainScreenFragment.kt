@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.professionaldevelopment.R
+import com.example.professionaldevelopment.application.TranslatorApp
 import com.example.professionaldevelopment.databinding.FragmentMainScreenBinding
 import com.example.professionaldevelopment.model.data.AppState
 import com.example.professionaldevelopment.model.data.DataModel
@@ -16,15 +18,25 @@ import com.example.professionaldevelopment.ui.MainViewModel
 import com.example.professionaldevelopment.ui.adapters.MainFragmentAdapter
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView
+import javax.inject.Inject
 
 class MainScreenFragment : Fragment(), RenderView {
+
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    lateinit var model: MainViewModel
+
+
     private var _binding: FragmentMainScreenBinding? = null
     private val binding get() = _binding!!
 
     private var adapter: MainFragmentAdapter? = null
-    val model:MainViewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
+
+
+//    val model:MainViewModel by lazy {
+//        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+//    }
 
     private val onItemClickListener: OnItemClickListener =
         object : OnItemClickListener {
@@ -36,6 +48,15 @@ class MainScreenFragment : Fragment(), RenderView {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        TranslatorApp.componemt.inject(this@MainScreenFragment)
+        //AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
+        model = viewModelFactory.create(MainViewModel::class.java)
+        model.subscribe().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
