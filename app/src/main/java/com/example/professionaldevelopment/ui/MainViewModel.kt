@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val interactor: MainInteractor) : BaseViewModel<AppState>() {
+class MainViewModel (private val interactor: MainInteractor) : BaseViewModel<AppState>() {
 
     private var appState: AppState? = null
 
@@ -48,5 +48,9 @@ class MainViewModel @Inject constructor(private val interactor: MainInteractor) 
             }
 
         }
+    }
+
+    override fun handleError(throwable: Throwable) {
+        TODO("Not yet implemented")
     }
 }
