@@ -1,4 +1,4 @@
-package com.example.professionaldevelopment.ui
+package com.example.professionaldevelopment.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

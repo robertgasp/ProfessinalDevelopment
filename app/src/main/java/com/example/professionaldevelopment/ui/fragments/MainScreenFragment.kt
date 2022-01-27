@@ -14,7 +14,7 @@ import com.example.professionaldevelopment.application.TranslatorApp
 import com.example.professionaldevelopment.databinding.FragmentMainScreenBinding
 import com.example.professionaldevelopment.model.data.AppState
 import com.example.professionaldevelopment.model.data.DataModel
-import com.example.professionaldevelopment.ui.MainViewModel
+import com.example.professionaldevelopment.ui.main.MainViewModel
 import com.example.professionaldevelopment.ui.adapters.MainFragmentAdapter
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView

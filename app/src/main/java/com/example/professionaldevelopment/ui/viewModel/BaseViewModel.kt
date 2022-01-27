@@ -7,7 +7,7 @@ import kotlinx.coroutines.*
 
 
 abstract class BaseViewModel<T : AppState>(
-    protected open val liveDataToObserveForView: MutableLiveData<T> = MutableLiveData(),
+    protected open val _mutableLivaData: MutableLiveData<T> = MutableLiveData(),
 
     ) : ViewModel() {
 
@@ -27,7 +27,7 @@ abstract class BaseViewModel<T : AppState>(
         cancelJob()
     }
 
-    private fun cancelJob() {
+    protected fun cancelJob() {
         viewModelCoroutineScope.coroutineContext.cancelChildren()
     }
 }
