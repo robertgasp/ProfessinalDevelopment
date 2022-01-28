@@ -4,5 +4,5 @@ import com.example.professionaldevelopment.model.data.DataModel
 
 interface OnItemClickListener {
 
-    fun onItemClick(data:DataModel)
+    fun onItemClick(data: DataModel)
 }

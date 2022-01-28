@@ -8,15 +8,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel (private val interactor: MainInteractor) : BaseViewModel<AppState>() {
+class MainViewModel(private val interactor: MainInteractor) : BaseViewModel<AppState>() {
 
-    private val liveDataForViewToObserve:LiveData<AppState> = _mutableLivaData
+    private val liveDataForViewToObserve: LiveData<AppState> = _mutableLivaData
 
     fun subscribe(): LiveData<AppState> {
         return liveDataForViewToObserve
     }
 
-    override fun getData(word: String, isOnline: Boolean){
+    override fun getData(word: String, isOnline: Boolean) {
         _mutableLivaData.value = AppState.Loading(null)
         cancelJob()
         viewModelCoroutineScope.launch {
@@ -24,9 +24,10 @@ class MainViewModel (private val interactor: MainInteractor) : BaseViewModel<App
         }
     }
 
-    private suspend fun startInteractor(word: String, online: Boolean) = withContext(Dispatchers.IO){
-        _mutableLivaData.postValue(parseSearchResult(interactor.getData(word,online)))
-    }
+    private suspend fun startInteractor(word: String, online: Boolean) =
+        withContext(Dispatchers.IO) {
+            _mutableLivaData.postValue(parseSearchResult(interactor.getData(word, online)))
+        }
 
 
     override fun handleError(throwable: Throwable) {

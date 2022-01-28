@@ -9,18 +9,18 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitImpl:DataSource<List<DataModel>> {
+class RetrofitImpl : DataSource<List<DataModel>> {
 
 
-    override fun getData(word: String): Observable<List<DataModel>> {
-        return getService(BaseInterceptor.interceptor).search(word)
+    override suspend fun getData(word: String): List<DataModel> {
+        return getService(BaseInterceptor.interceptor).searchAsync(word).await()
     }
 
-    private fun getService(interceptor: Interceptor):ApiService{
+    private fun getService(interceptor: Interceptor): ApiService {
         return createRetrofit(interceptor).create(ApiService::class.java)
     }
 
-    private fun createRetrofit(interceptor: Interceptor):Retrofit{
+    private fun createRetrofit(interceptor: Interceptor): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -29,14 +29,14 @@ class RetrofitImpl:DataSource<List<DataModel>> {
             .build()
     }
 
-    private fun createHTPPClient(interceptor: Interceptor):OkHttpClient{
-        val httpClient =OkHttpClient.Builder()
+    private fun createHTPPClient(interceptor: Interceptor): OkHttpClient {
+        val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(interceptor)
-        httpClient.addInterceptor (HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        httpClient.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         return httpClient.build()
     }
 
-    companion object{
-        private const val BASE_URL  = "https://dictionary.skyeng.ru/api/public/v1/"
+    companion object {
+        private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
     }
 }

@@ -1,5 +1,6 @@
 package com.example.professionaldevelopment.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,20 +13,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.professionaldevelopment.R
 import com.example.professionaldevelopment.application.TranslatorApp
 import com.example.professionaldevelopment.databinding.FragmentMainScreenBinding
+import com.example.professionaldevelopment.di.application
 import com.example.professionaldevelopment.model.data.AppState
 import com.example.professionaldevelopment.model.data.DataModel
 import com.example.professionaldevelopment.ui.main.MainViewModel
 import com.example.professionaldevelopment.ui.adapters.MainFragmentAdapter
+import com.example.professionaldevelopment.ui.alertDialog.AlertDialogFragment
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView
+import com.example.professionaldevelopment.utils.network.isOnline
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import javax.inject.Inject
 
 class MainScreenFragment : Fragment(), RenderView {
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var model: MainViewModel
+    var isNetworkAvailable: Boolean = false
 
 
     private var _binding: FragmentMainScreenBinding? = null
@@ -33,10 +37,6 @@ class MainScreenFragment : Fragment(), RenderView {
 
     private var adapter: MainFragmentAdapter? = null
 
-
-//    val model:MainViewModel by lazy {
-//        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-//    }
 
     private val onItemClickListener: OnItemClickListener =
         object : OnItemClickListener {
@@ -50,28 +50,59 @@ class MainScreenFragment : Fragment(), RenderView {
         _binding = null
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        TranslatorApp.componemt.inject(this@MainScreenFragment)
-        //AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
-        model = viewModelFactory.create(MainViewModel::class.java)
-        model.subscribe().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-
+    override fun onResume() {
+        super.onResume()
+        isNetworkAvailable = isOnline(requireContext())
+        if (!isNetworkAvailable && isDialogNull()) {
+            showNoInternetConnectionDialog()
+        }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val viewModel: MainViewModel by viewModel()
+        model = viewModel
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        model.subscribe().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
         binding.searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    model?.getData(searchWord, true)
+                    isNetworkAvailable = isOnline(requireContext())
+                    if (isNetworkAvailable) {
+                        model?.getData(searchWord, true)
+                    } else {
+                        showNoInternetConnectionDialog()
+                    }
                 }
             })
             searchDialogFragment.show(childFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
+
+
+    }
+
+    private fun showNoInternetConnectionDialog() {
+        showAlert(
+            "No available Internet connection",
+            "Please check your Internet connection. This app doesn't work without Internet"
+        )
+    }
+
+    private fun showAlert(title: String, message: String) {
+        AlertDialogFragment.newInstance(title, message).show(
+            childFragmentManager,
+            DIALOG_FRAGMENT_TAG
+        )
+    }
+
+    private fun isDialogNull(): Boolean {
+        return childFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
     }
 
     override fun onCreateView(
@@ -146,5 +177,7 @@ class MainScreenFragment : Fragment(), RenderView {
     companion object {
         private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
             "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+        private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
     }
+
 }
