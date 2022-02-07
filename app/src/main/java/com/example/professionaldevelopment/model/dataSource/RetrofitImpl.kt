@@ -1,6 +1,7 @@
 package com.example.professionaldevelopment.model.dataSource
 
 import com.example.professionaldevelopment.model.data.DataModel
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
 import okhttp3.Interceptor
@@ -24,7 +25,8 @@ class RetrofitImpl : DataSource<List<DataModel>> {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createHTPPClient(interceptor))
             .build()
     }

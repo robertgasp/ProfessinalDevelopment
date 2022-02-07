@@ -3,6 +3,7 @@ package com.example.professionaldevelopment.ui.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.example.professionaldevelopment.databinding.FragmentHistoryBinding
 import com.example.professionaldevelopment.model.data.AppState
 import com.example.professionaldevelopment.model.data.DataModel
 import com.example.professionaldevelopment.ui.adapters.HistoryAdapter
+import com.example.professionaldevelopment.ui.alertDialog.AlertDialogFragment
 import com.example.professionaldevelopment.ui.viewModel.BaseViewModel
 import com.example.professionaldevelopment.ui.viewModel.HistoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,6 +49,18 @@ class HistoryFragment : Fragment() {
         adapter.setData(data)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.container,HistoryFragment())
+                    .commit()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun iniViewModel() = with(binding) {
         if (historyFragmentRecyclerview.adapter != null) {
             throw IllegalAccessException("The ViewModel should be initialised first")
@@ -71,7 +85,7 @@ class HistoryFragment : Fragment() {
                             getString(R.string.empty_server_response_on_success)
                         )
                     } else {
-                        setDataToAdapter(it)
+                        setHistoryDataToAdapter(it)
                     }
                 }
 
@@ -94,6 +108,10 @@ class HistoryFragment : Fragment() {
         }
     }
 
+    protected fun showAlertDialog(title: String?, message: String?) {
+        AlertDialogFragment.newInstance(title!!, message!!)
+            .show(childFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
 
     private fun showViewWorking() {
         binding.loadingFrameLayout.visibility = View.GONE
@@ -103,5 +121,9 @@ class HistoryFragment : Fragment() {
         binding.loadingFrameLayout.visibility = View.VISIBLE
     }
 
-
+    companion object {
+        private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
+            "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+        private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
+    }
 }
