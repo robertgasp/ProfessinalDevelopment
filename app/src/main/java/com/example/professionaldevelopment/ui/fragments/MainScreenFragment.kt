@@ -3,6 +3,7 @@ package com.example.professionaldevelopment.ui.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -167,6 +168,19 @@ class MainScreenFragment : Fragment(), RenderView {
         successLinearLayout.visibility = View.GONE
         loadingFrameLayout.visibility = View.GONE
         errorLinearLayout.visibility = View.VISIBLE
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.container,HistoryFragment())
+                    .commit()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {

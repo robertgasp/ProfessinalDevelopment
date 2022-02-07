@@ -49,17 +49,6 @@ class HistoryFragment : Fragment() {
         adapter.setData(data)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_history -> {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.container,HistoryFragment())
-                    .commit()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun iniViewModel() = with(binding) {
         if (historyFragmentRecyclerview.adapter != null) {
