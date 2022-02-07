@@ -1,8 +1,8 @@
-package com.example.professionaldevelopment.ui.main
+package com.example.professionaldevelopment.ui.viewModel
 
 import androidx.lifecycle.LiveData
 import com.example.professionaldevelopment.model.data.AppState
-import com.example.professionaldevelopment.ui.viewModel.BaseViewModel
+import com.example.professionaldevelopment.ui.main.MainInteractor
 import com.example.professionaldevelopment.utils.parseSearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -43,7 +43,7 @@ class MainFragmentAdapter(
         fun bind(data: DataModel) = with(binding) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 headerTextviewRecyclerItem.text = data.text
-                descriptionTextviewRecyclerItem.text = data.meanings[0].translation.translation
+                descriptionTextviewRecyclerItem.text = data.meanings?.get(0)?.translation?.translation
                 itemView.setOnClickListener { openInNewWindow(data) }
             }
         }
