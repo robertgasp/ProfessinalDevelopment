@@ -9,8 +9,9 @@ import com.example.professionaldevelopment.ui.base.OnItemClickListener
 
 class MainFragmentAdapter(
     private var onItemClickListener: OnItemClickListener,
-    private var data: List<DataModel>
 ) : RecyclerView.Adapter<MainFragmentAdapter.RecyclerItemViewHolder>() {
+
+    private var data: List<DataModel> = arrayListOf()
 
     fun setData(dataFromMainFragment: List<DataModel>) {
         this.data = dataFromMainFragment

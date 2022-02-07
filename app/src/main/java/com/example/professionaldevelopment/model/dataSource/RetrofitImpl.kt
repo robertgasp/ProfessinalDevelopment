@@ -1,8 +1,7 @@
 package com.example.professionaldevelopment.model.dataSource
 
 import com.example.professionaldevelopment.model.data.DataModel
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import io.reactivex.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,9 +21,10 @@ class RetrofitImpl : DataSource<List<DataModel>> {
 
     private fun createRetrofit(interceptor: Interceptor): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_URL_LOCATION)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createHTPPClient(interceptor))
             .build()
     }
@@ -37,6 +37,6 @@ class RetrofitImpl : DataSource<List<DataModel>> {
     }
 
     companion object {
-        private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
+        private const val BASE_URL_LOCATION = "https://dictionary.skyeng.ru/api/public/v1/"
     }
 }

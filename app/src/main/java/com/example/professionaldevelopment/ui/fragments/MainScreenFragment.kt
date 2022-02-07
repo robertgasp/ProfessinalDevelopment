@@ -125,7 +125,7 @@ class MainScreenFragment : Fragment(), RenderView {
                         mainListRecyclerview.layoutManager =
                             LinearLayoutManager(context)
                         mainListRecyclerview.adapter =
-                            MainFragmentAdapter(onItemClickListener, dataModel)
+                            MainFragmentAdapter(onItemClickListener)
                     } else {
                         adapter!!.setData(dataModel)
                     }
