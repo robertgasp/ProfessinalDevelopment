@@ -1,6 +1,5 @@
 package com.example.professionaldevelopment.ui.main
 
-import com.example.professionaldevelopment.di.NAME_LOCAL
 import com.example.professionaldevelopment.di.NAME_REMOTE
 import io.reactivex.Observable
 import com.example.professionaldevelopment.model.data.AppState

@@ -1,6 +1,5 @@
 package com.example.professionaldevelopment.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,22 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.professionaldevelopment.R
-import com.example.professionaldevelopment.application.TranslatorApp
 import com.example.professionaldevelopment.databinding.FragmentMainScreenBinding
-import com.example.professionaldevelopment.di.application
 import com.example.professionaldevelopment.model.data.AppState
 import com.example.professionaldevelopment.model.data.DataModel
-import com.example.professionaldevelopment.ui.main.MainViewModel
+import com.example.professionaldevelopment.ui.viewModel.MainViewModel
 import com.example.professionaldevelopment.ui.adapters.MainFragmentAdapter
 import com.example.professionaldevelopment.ui.alertDialog.AlertDialogFragment
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView
 import com.example.professionaldevelopment.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import javax.inject.Inject
 
 class MainScreenFragment : Fragment(), RenderView {
 
