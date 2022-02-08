@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_history -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, HistoryFragment())
+                    .addToBackStack("1")
                     .commit()
                 true
             }
