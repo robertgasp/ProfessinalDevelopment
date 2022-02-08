@@ -34,6 +34,11 @@ class MainScreenFragment : Fragment(), RenderView {
     private val onItemClickListener: OnItemClickListener =
         object : OnItemClickListener {
             override fun onItemClick(data: DataModel) {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.container,DescriptionFragment(data))
+                    .addToBackStack("2")
+                    .commit()
+
                 Toast.makeText(context, data.text, Toast.LENGTH_SHORT).show()
             }
         }

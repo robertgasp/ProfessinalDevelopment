@@ -86,4 +86,7 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_version"
     //Koin Java Compatibility
     implementation "io.insert-koin:koin-android-compat:$koin_version"
+
+    //Coil
+    implementation 'io.coil-kt:coil:0.11.0'
 }

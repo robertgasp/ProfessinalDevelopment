@@ -47,7 +47,8 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
         }
 
         private fun openDescription(data: DataModel) {
-            //здесь надо запрограммировать открытие
+            //здесь надо запрограммировать открытие, чтобы можно было повторно открыть значение без
+            //ввода, потом реализую
         }
     }
 }
