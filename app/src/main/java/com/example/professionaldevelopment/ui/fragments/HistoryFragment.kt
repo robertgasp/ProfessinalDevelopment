@@ -50,8 +50,8 @@ class HistoryFragment : Fragment() {
     }
 
 
-    private fun iniViewModel() = with(binding) {
-        if (historyFragmentRecyclerview.adapter != null) {
+    private fun iniViewModel() {
+        if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalAccessException("The ViewModel should be initialised first")
         }
         val viewModel : HistoryViewModel by viewModel()
