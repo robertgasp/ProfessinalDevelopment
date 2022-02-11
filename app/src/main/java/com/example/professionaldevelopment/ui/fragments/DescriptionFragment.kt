@@ -10,7 +10,7 @@ import coil.ImageLoader
 import coil.request.LoadRequest
 import com.example.professionaldevelopment.R
 import com.example.professionaldevelopment.databinding.FragmentDescriptionBinding
-import com.example.professionaldevelopment.model.data.DataModel
+import com.example.model.data.DataModel
 import com.example.professionaldevelopment.utils.convertMeaningsToString
 
 class DescriptionFragment(
@@ -33,7 +33,7 @@ class DescriptionFragment(
         super.onViewCreated(view, savedInstanceState)
         descriptionHeader.text = data.text
         descriptionTextview.text = convertMeaningsToString(data.meanings!!)
-        useCoilToLoadPhoto(descriptionImageview, data.meanings[0].imageUrl)
+        useCoilToLoadPhoto(descriptionImageview, data.meanings!![0].imageUrl)
     }
 
     private fun useCoilToLoadPhoto(imageView: ImageView, imageUrl: String?) {
