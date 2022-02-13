@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.professionaldevelopment.databinding.MainFragmentRecyclerItemBinding
-import com.example.professionaldevelopment.model.data.DataModel
+import com.example.model.data.DataModel
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 
 class MainFragmentAdapter(

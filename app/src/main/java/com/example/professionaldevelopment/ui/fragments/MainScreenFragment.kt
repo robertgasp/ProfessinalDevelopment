@@ -8,14 +8,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.professionaldevelopment.R
 import com.example.professionaldevelopment.databinding.FragmentMainScreenBinding
-import com.example.professionaldevelopment.model.data.AppState
-import com.example.professionaldevelopment.model.data.DataModel
+import com.example.model.data.AppState
+import com.example.model.data.DataModel
 import com.example.professionaldevelopment.ui.viewModel.MainViewModel
 import com.example.professionaldevelopment.ui.adapters.MainFragmentAdapter
-import com.example.professionaldevelopment.ui.alertDialog.AlertDialogFragment
+import com.example.utils.alertDialog.AlertDialogFragment
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView
-import com.example.professionaldevelopment.utils.network.isOnline
+import com.example.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainScreenFragment : Fragment(), RenderView {
@@ -132,7 +132,7 @@ class MainScreenFragment : Fragment(), RenderView {
                 if (appState.progress != null) {
                     progressBarHorizontal.visibility = View.VISIBLE
                     progressBarRound.visibility = View.GONE
-                    progressBarHorizontal.progress = appState.progress
+                    progressBarHorizontal.progress = appState.progress!!
                 } else {
                     progressBarHorizontal.visibility = View.GONE
                     progressBarRound.visibility = View.VISIBLE

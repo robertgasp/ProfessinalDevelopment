@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.professionaldevelopment.R
 import com.example.professionaldevelopment.databinding.ActivityMainBinding
-import com.example.professionaldevelopment.ui.fragments.HistoryFragment
+import com.example.historyscreen.HistoryFragment
 import com.example.professionaldevelopment.ui.fragments.MainScreenFragment
 
 class MainActivity : AppCompatActivity() {

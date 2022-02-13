@@ -1,14 +1,14 @@
 package com.example.professionaldevelopment.ui.viewModel
 
 import androidx.lifecycle.LiveData
-import com.example.professionaldevelopment.model.data.AppState
+import com.example.model.data.AppState
 import com.example.professionaldevelopment.ui.main.MainInteractor
 import com.example.professionaldevelopment.utils.parseSearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel(private val interactor: MainInteractor) : BaseViewModel<AppState>() {
+class MainViewModel(private val interactor: MainInteractor) : com.example.core.BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLivaData
 
