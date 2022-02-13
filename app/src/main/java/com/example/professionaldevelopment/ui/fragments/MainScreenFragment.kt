@@ -16,7 +16,11 @@ import com.example.utils.alertDialog.AlertDialogFragment
 import com.example.professionaldevelopment.ui.base.OnItemClickListener
 import com.example.professionaldevelopment.ui.base.RenderView
 import com.example.utils.network.isOnline
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.utils.viewById
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.koin.androidx.scope.ScopeFragment
+
+
 
 class MainScreenFragment : Fragment(), RenderView {
 
@@ -29,6 +33,8 @@ class MainScreenFragment : Fragment(), RenderView {
     private val binding get() = _binding!!
 
     private var adapter: MainFragmentAdapter? = null
+
+    private val searchFab by viewById<FloatingActionButton>(R.id.search_fab)
 
 
     private val onItemClickListener: OnItemClickListener =
@@ -58,7 +64,9 @@ class MainScreenFragment : Fragment(), RenderView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel: MainViewModel by viewModel()
+//        val viewModel: MainViewModel by viewModel()
+        val viewModel: MainViewModel by ScopeFragment.viewModel<MainViewModel>(this)
+
         model = viewModel
     }
 
@@ -66,14 +74,14 @@ class MainScreenFragment : Fragment(), RenderView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model.subscribe().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-        binding.searchFab.setOnClickListener {
+        searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(searchWord: String) {
                     isNetworkAvailable = isOnline(requireContext())
                     if (isNetworkAvailable) {
-                        model?.getData(searchWord, true)
+                        model.getData(searchWord, true)
                     } else {
                         showNoInternetConnectionDialog()
                     }
