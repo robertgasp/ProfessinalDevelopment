@@ -10,8 +10,10 @@ import com.example.historyscreen.databinding.FragmentHistoryBinding
 import com.example.model.data.AppState
 import com.example.model.data.DataModel
 import com.example.utils.alertDialog.AlertDialogFragment
+import org.koin.androidx.scope.currentScope
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.scope.viewModel
 
 class HistoryFragment : Fragment() {
 
@@ -51,7 +53,8 @@ class HistoryFragment : Fragment() {
         if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalAccessException("The ViewModel should be initialised first")
         }
-        val viewModel: HistoryViewModel by viewModel()
+//        val viewModel: HistoryViewModel by viewModel()
+        val viewModel: HistoryViewModel by currentScope.viewModel(this)
         model = viewModel
         model.subscribe().observe(this@HistoryFragment, Observer<AppState> { renderData(it) })
     }
