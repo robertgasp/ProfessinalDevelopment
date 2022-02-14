@@ -27,19 +27,19 @@ val application = module {
 }
 
 val mainScreen = module {
-//    factory { MainInteractor(get(), get()) }
-//    factory { MainViewModel(get()) }
-    scope(named<MainScreenFragment>()) {
-        scoped { MainInteractor(get(), get()) }
-        viewModel { MainViewModel(get()) }
-    }
+    factory { MainInteractor(get(), get()) }
+    factory { MainViewModel(get()) }
+//    scope(named<MainScreenFragment>()) {
+//        scoped { MainInteractor(get(), get()) }
+//        viewModel { MainViewModel(get()) }
+//    }
 }
 
 val historyScreen = module {
-//    factory { HistoryInteractor(get(), get()) }
-//    factory { HistoryViewModel(get()) }
-    scope(named<HistoryFragment>()) {
-        scoped { HistoryInteractor(get(), get()) }
-        viewModel { HistoryViewModel(get()) }
-    }
+    factory { HistoryInteractor(get(), get()) }
+    factory { HistoryViewModel(get()) }
+//    scope(named<HistoryFragment>()) {
+//        scoped { HistoryInteractor(get(), get()) }
+//        viewModel { HistoryViewModel(get()) }
+//    }
 }

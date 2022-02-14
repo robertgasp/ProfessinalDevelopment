@@ -20,6 +20,7 @@ import com.example.utils.viewById
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.scope.scopeActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.androidx.viewmodel.scope.getViewModel
 import org.koin.androidx.viewmodel.scope.viewModel
 
@@ -66,8 +67,8 @@ class MainScreenFragment : Fragment(), RenderView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val viewModel: MainViewModel by viewModel()
-        val viewModel: MainViewModel by currentScope.viewModel(this)
+        val viewModel: MainViewModel by viewModel()
+//        val viewModel: MainViewModel by currentScope.viewModel(this)
 
         model = viewModel
     }

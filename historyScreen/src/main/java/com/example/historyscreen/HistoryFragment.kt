@@ -53,8 +53,8 @@ class HistoryFragment : Fragment() {
         if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalAccessException("The ViewModel should be initialised first")
         }
-//        val viewModel: HistoryViewModel by viewModel()
-        val viewModel: HistoryViewModel by currentScope.viewModel(this)
+        val viewModel: HistoryViewModel by viewModel()
+//        val viewModel: HistoryViewModel by currentScope.viewModel(this)
         model = viewModel
         model.subscribe().observe(this@HistoryFragment, Observer<AppState> { renderData(it) })
     }
