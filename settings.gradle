@@ -8,3 +8,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ProfessionalDevelopment"
 include ':app'
+include ':core'
+include ':historyScreen'
+include ':model'
+include ':repository'
+include ':utils'
