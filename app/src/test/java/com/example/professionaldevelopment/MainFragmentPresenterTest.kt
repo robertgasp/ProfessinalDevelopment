@@ -19,6 +19,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -37,8 +38,10 @@ class MainFragmentPresenterTest {
         fun just(): Observable<List<DataModel>> {
             return Observable.just(
                 listOf(
-                    DataModel("word", listOf(Meanings(Translation("слово")))),
-                    DataModel("home", listOf(Meanings(Translation("дом"))))
+                    DataModel(
+                        "word",
+                        listOf(Meanings(Translation("слово")), Meanings(Translation("Слово")))
+                    ),
                 )
             )
         }
@@ -64,15 +67,32 @@ class MainFragmentPresenterTest {
     @SuppressLint("CheckResult")
     @Test
     fun getDataTesting() {
-        val word = "my word"
+        val word = "word"
         val isOnline = true
 
         val producer = Producer()
-        fun returnObservableAppState():Observable<AppState>{
+        fun returnObservableAppState(): Observable<AppState> {
             return producer.just().map { AppState.Success(it) }
         }
 
-        `when`(interactor.getData(word, isOnline)).thenReturn(returnObservableAppState())
+        val data = returnObservableAppState()
+
+        `when`(interactor.getData(word, isOnline)).thenReturn(data)
+
+        val expectedData = listOf(
+            DataModel(
+                "word",
+                listOf(Meanings(Translation("слово")), Meanings(Translation("Слово")))
+            ),
+        )
+        Assert.assertEquals(data, interactor.getData(word, isOnline))
+    }
+
+    @Test
+    fun verifyGetData() {
+        val word = "word"
+        val isOnline = true
         verify(interactor, times(1)).getData(word, isOnline)
     }
+
 }
