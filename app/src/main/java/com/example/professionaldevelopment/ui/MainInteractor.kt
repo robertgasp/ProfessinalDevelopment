@@ -6,7 +6,8 @@ import com.example.professionaldevelopment.model.data.DataModel
 import com.example.professionaldevelopment.model.repository.Repository
 import com.example.professionaldevelopment.presenter.Interactor
 
-class MainInteractor(
+
+open class MainInteractor(
     private val remoteRepository: Repository<List<DataModel>>,
     private val localRepository: Repository<List<DataModel>>
 ) : Interactor<AppState> {
