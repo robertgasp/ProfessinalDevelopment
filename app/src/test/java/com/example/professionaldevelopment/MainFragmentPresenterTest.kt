@@ -79,12 +79,6 @@ class MainFragmentPresenterTest {
 
         `when`(interactor.getData(word, isOnline)).thenReturn(data)
 
-        val expectedData = listOf(
-            DataModel(
-                "word",
-                listOf(Meanings(Translation("слово")), Meanings(Translation("Слово")))
-            ),
-        )
         Assert.assertEquals(data, interactor.getData(word, isOnline))
     }
 
