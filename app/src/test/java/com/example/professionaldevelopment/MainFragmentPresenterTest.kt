@@ -18,7 +18,11 @@ import com.example.professionaldevelopment.ui.base.RenderView
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers.io
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -78,15 +82,19 @@ class MainFragmentPresenterTest {
         val data = returnObservableAppState()
 
         `when`(interactor.getData(word, isOnline)).thenReturn(data)
+        `when`(schedulerProvider.io()).thenReturn(Schedulers.io())
+
+        mainFragmentPresenter.getData(word,isOnline)
 
         Assert.assertEquals(data, interactor.getData(word, isOnline))
+        verify(interactor, times(1)).getData(word,isOnline)
     }
 
     @Test
     fun verifyGetData() {
         val word = "word"
         val isOnline = true
-        verify(interactor, times(1)).getData(word, isOnline)
+
     }
 
 }
